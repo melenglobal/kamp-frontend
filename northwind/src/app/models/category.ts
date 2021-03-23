@@ -6,5 +6,5 @@ export interface Category{
 }
 
 export interface CategoryResponseModel extends ResponseModel{
-    data:Category[]
+    data:Category[];
 }
