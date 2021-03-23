@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Product } from 'src/app/models/product';
-import { HttpClient } from '@angular/common/http';
-import { ProductResponseModel } from 'src/app/models/productResponseModel';
+
+
 import { from } from 'rxjs';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product',
@@ -11,17 +12,18 @@ import { from } from 'rxjs';
 })
 export class ProductComponent implements OnInit {
   products: Product[] = [];
-  apiUrl = 'https://localhost:44313/api/products/getall';
+ 
   /* productResponseModel:ProductResponseModel = {}; */
-  constructor(private httpClient: HttpClient) {}
+  constructor(private productService:ProductService) {}
 
   ngOnInit(): void {
     this.getProducts();
   }
 
-  getProducts() {
-    this.httpClient
-      .get<ProductResponseModel>(this.apiUrl)
-      .subscribe((response) => {this.products = response.data});
+  getProducts()
+  {
+    this.productService.getProducts().subscribe(response => {
+      this.products = response.data;
+    })
   }
 }
