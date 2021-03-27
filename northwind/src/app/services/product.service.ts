@@ -8,6 +8,9 @@ import { Product } from '../models/product';
   providedIn: 'root'
 })
 export class ProductService {
+  getProductsByCategory(categoryId: number) {
+    throw new Error('Method not implemented.');
+  }
    
   apiUrl = 'https://localhost:44313/api/';
   constructor(private httpClient: HttpClient) { }
