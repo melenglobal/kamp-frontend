@@ -4,6 +4,7 @@ import { from } from 'rxjs';
 import { ProductService } from 'src/app/services/product.service';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { CartService } from 'src/app/services/cart.service';
 
 @Component({
   selector: 'app-product',
@@ -11,28 +12,25 @@ import { ToastrService } from 'ngx-toastr';
   styleUrls: ['./product.component.css'],
 })
 export class ProductComponent implements OnInit {
-
   products: Product[] = [];
   dataLoaded = false;
-  filterText ="";
+  filterText = '';
 
   constructor(
     private productService: ProductService,
     private avtivatedRoute: ActivatedRoute,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
-    this.avtivatedRoute.params.subscribe(params =>{
-      if(params["categoryId"])
-      {
-        this.getProductsByCategoryId(params["categoryId"])
-      }else{
-        this.getProducts()
+    this.avtivatedRoute.params.subscribe((params) => {
+      if (params['categoryId']) {
+        this.getProductsByCategoryId(params['categoryId']);
+      } else {
+        this.getProducts();
       }
-
     });
-    
   }
 
   getProducts() {
@@ -42,14 +40,15 @@ export class ProductComponent implements OnInit {
     });
   }
 
-  getProductsByCategoryId(categoryId:number) {
-    this.productService.getProductsByCategoryId(categoryId).subscribe((response) => {
+  getProductsByCategoryId(categoryId: number) {
+    this.productService
+      .getProductsByCategoryId(categoryId)
+      .subscribe((response) => {
         this.products = response.data;
         this.dataLoaded = true;
       });
   }
-  addToCart(product:Product)
-  {
-     this.toastrService.success("Sepete Eklendi",product.productName);
+  addToCart(product: Product) {
+    this.toastrService.success('Sepete Eklendi', product.productName);
   }
 }
